@@ -1,11 +1,14 @@
-from models import Base, engine
+import os
+from alembic import command
+from alembic.config import Config
 
 
-def init_db() -> None:
-    """Initialize the database tables."""
-    Base.metadata.create_all(bind=engine)
+def run_migrations() -> None:
+    """Apply database migrations."""
+    cfg = Config(os.path.join(os.path.dirname(__file__), "alembic.ini"))
+    command.upgrade(cfg, "head")
 
 
 if __name__ == "__main__":
-    init_db()
-    print("Database initialized")
+    run_migrations()
+    print("Database migrated")

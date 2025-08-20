@@ -56,5 +56,19 @@ docker run --rm \
   auth-service
 ```
 
-The service will initialize the schema on startup.
+The service will apply database migrations on startup using Alembic.
+
+## Create a new migration (developers)
+
+After modifying models, generate a migration:
+
+```bash
+alembic revision --autogenerate -m "your message"
+```
+
+Then apply it:
+
+```bash
+alembic upgrade head
+```
 
