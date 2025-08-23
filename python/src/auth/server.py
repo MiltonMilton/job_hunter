@@ -1,9 +1,10 @@
 import os
+from typing import Any
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_migrate import Migrate, upgrade
 
-from models import db, User
+from models import User, db
 
 
 def create_app() -> Flask:
@@ -19,6 +20,21 @@ def create_app() -> Flask:
     @app.route("/health")
     def health() -> dict[str, str]:
         return {"status": "ok"}
+
+    @app.route("/users")
+    def list_users() -> list[dict[str, Any]]:
+        users = User.query.all()
+        return jsonify(
+            [
+                {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "created_at": user.created_at.isoformat(),
+                }
+                for user in users
+            ]
+        )
 
     return app
 
