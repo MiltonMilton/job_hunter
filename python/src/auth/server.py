@@ -30,7 +30,7 @@ def create_app() -> Flask:
                     "id": user.id,
                     "username": user.username,
                     "email": user.email,
-                    "created_at": user.created_at.isoformat(),
+                    "created_at": user.created_at.isoformat() if user.created_at else None,
                 }
                 for user in users
             ]
