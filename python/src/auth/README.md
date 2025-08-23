@@ -7,8 +7,8 @@ This service manages authentication using a Flask application backed by a MySQL 
 Run a local MySQL instance and create the initial database:
 
 ```bash
-docker run --name local-mysql \
-  -e MYSQL_ROOT_PASSWORD=tu_password \
+docker run --name auth-mysql \
+  -e MYSQL_ROOT_PASSWORD=auth_root_password \
   -e MYSQL_DATABASE=auth \
   -p 3306:3306 \
   -d mysql:8
@@ -17,8 +17,8 @@ docker run --name local-mysql \
 Create an application user and grant access:
 
 ```bash
-docker exec -it local-mysql mysql -uroot -ptu_password -e "\
-  CREATE USER 'auth_user'@'%' IDENTIFIED BY 'otra_password';\
+docker exec -it auth-mysql mysql -uroot -pauth_root_password -e "\
+  CREATE USER 'auth_user'@'%' IDENTIFIED BY 'auth_user_password';\
   GRANT ALL PRIVILEGES ON auth.* TO 'auth_user'@'%';\
   FLUSH PRIVILEGES;\
 "
@@ -31,13 +31,13 @@ The service reads `AUTH_DATABASE_URL` for the Flask SQLAlchemy engine.
 Set it in your shell:
 
 ```bash
-export AUTH_DATABASE_URL="mysql+pymysql://auth_user:otra_password@localhost:3306/auth"
+export AUTH_DATABASE_URL="mysql+pymysql://auth_user:auth_user_password@localhost:3306/auth"
 ```
 
 Or create a `.env` file (listed in `.gitignore`):
 
 ```
-AUTH_DATABASE_URL=mysql+pymysql://auth_user:otra_password@localhost:3306/auth
+AUTH_DATABASE_URL=mysql+pymysql://auth_user:auth_user_password@localhost:3306/auth
 ```
 
 ## Build and run the service
