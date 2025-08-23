@@ -31,13 +31,13 @@ The service reads `AUTH_DATABASE_URL` for the Flask SQLAlchemy engine.
 Set it in your shell:
 
 ```bash
-export AUTH_DATABASE_URL="mysql+pymysql://auth_user:auth_user_password@localhost:3306/auth"
+export AUTH_DATABASE_URL="mysql+pymysql://auth_user:auth_user_password@host.docker.internal:3306/auth"
 ```
 
 Or create a `.env` file (listed in `.gitignore`):
 
 ```
-AUTH_DATABASE_URL=mysql+pymysql://auth_user:auth_user_password@localhost:3306/auth
+AUTH_DATABASE_URL=mysql+pymysql://auth_user:auth_user_password@host.docker.internal:3306/auth
 ```
 
 ## Build and run the service
